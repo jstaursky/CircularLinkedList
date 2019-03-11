@@ -10,20 +10,20 @@ struct node {
 
 struct node *circlinkedlist_create();
 
-void circlinkedlist_expand(struct node *lnode);
+void circlinkedlist_expand           (struct node *lnode);
 
-void circlinkedlist_insert(struct node **lnode, void *data);
+void circlinkedlist_insert           (struct node **lnode, void *data);
 
-void circlinkedlist_delete(struct node **remove);
+void circlinkedlist_delete           (struct node **remove);
 
-void circlinkedlist_traverse(struct node *lnode,
-                             void (*callback)(struct node *));
+void circlinkedlist_traverse         (struct node *lnode,
+                                      void (*callback)(struct node *));
 
-struct node *circlinkedlist_find(struct node *lnode, void *item,
-                                 int (*compare)(const void *, const void *));
+struct node *circlinkedlist_find     (struct node *lnode, void *item,
+                                      int (*compare)(const void *, const void *));
 
-int compare_strings(const void *s1, const void *s2);
+int compare_strings                  (const void *s1, const void *s2);
 
-int compare_integers(const void *p, const void *q);
+int compare_integers                 (const void *p, const void *q);
 
 #endif // CIRCULAR_LINKED_LIST_H
