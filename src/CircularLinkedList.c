@@ -17,7 +17,7 @@ struct node *circlinkedlist_create()
 }
 
 
-void circlinkedlist_expand(struct node *lnode)
+static void circlinkedlist_expand(struct node *lnode)
 {
 	// Create new node.
 	struct node *new = malloc(sizeof(struct node));
@@ -29,7 +29,7 @@ void circlinkedlist_expand(struct node *lnode)
 	lnode->prev = new;
 	new->next = lnode;
 
-	return;
+    return;
 }
 
 
@@ -99,4 +99,10 @@ void circlinkedlist_traverse(struct node *lnode,
 	} while (current = current->next, current != lnode);
 
 	return;
+}
+
+void circlinkedlist_print(struct node *lnode)
+{
+    // circlinkedlist_print assumes data has been assigned char *
+    puts(lnode->data);
 }
