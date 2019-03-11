@@ -6,7 +6,6 @@
 #define coerce(type) *(type *)
 
 
-
 struct node *circlinkedlist_create()
 {
 	struct node *np = malloc(sizeof(struct node));
@@ -18,25 +17,25 @@ struct node *circlinkedlist_create()
 }
 
 
-void circlinkedlist_expand(struct node *head)
+void circlinkedlist_expand(struct node *lnode)
 {
 	// Create new node.
 	struct node *new = malloc(sizeof(struct node));
 	new->data = NULL;
 
 	// Update links.
-	head->prev->next = new;
-	new->prev = head->prev;
-	head->prev = new;
-	new->next = head;
+	lnode->prev->next = new;
+	new->prev = lnode->prev;
+	lnode->prev = new;
+	new->next = lnode;
 
 	return;
 }
 
 
-void circlinkedlist_insert(struct node **head, void *data)
+void circlinkedlist_insert(struct node **lnode, void *data)
 {
-	struct node *current = *head;
+	struct node *current = *lnode;
 	do {
 		if (current->data == NULL) {
 			current->data = data;
@@ -44,13 +43,13 @@ void circlinkedlist_insert(struct node **head, void *data)
 		} else {
 			continue;
 		}
-	} while (current = current->next, current != *head);
+	} while (current = current->next, current != *lnode);
 
 	// Exiting the while loop implies there are no available spots.
 	// So we must exand the list to create one.
-	circlinkedlist_expand(*head);
+	circlinkedlist_expand(*lnode);
 	// Re-attempt inserting data into updated list.
-	circlinkedlist_insert(head, data); // recursive call.
+	circlinkedlist_insert(lnode, data); // recursive call.
 	return;
 }
 
@@ -66,14 +65,14 @@ void circlinkedlist_delete(struct node **remove)
 }
 
 
-struct node *circlinkedlist_find(struct node *list, void *item,
+struct node *circlinkedlist_find(struct node *lnode, void *item,
                                  int (*compare)(const void *, const void *))
 {
-	struct node *current = list;
+	struct node *current = lnode;
 	do {
 		if ((*compare)(item, current->data) == 0)
 			return current;
-	} while (current = current->next, current != list);
+	} while (current = current->next, current != lnode);
 }
 
 
@@ -91,12 +90,13 @@ int compare_integers(const void *p, const void *q)
 		return 1;
 }
 
-void circlinkedlist_traverse(struct node *head, void (*callback)(struct node *))
+void circlinkedlist_traverse(struct node *lnode,
+                             void (*callback)(struct node *))
 {
-	struct node *current = head;
+	struct node *current = lnode;
 	do {
 		(*callback)(current);
-	} while (current = current->next, current != head);
+	} while (current = current->next, current != lnode);
 
 	return;
 }

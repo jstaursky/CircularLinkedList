@@ -1,30 +1,29 @@
 #ifndef CIRCULAR_LINKED_LIST_H
 #define CIRCULAR_LINKED_LIST_H
 
+struct node {
+	void *data;
+	struct node *next;
+	struct node *prev;
+};
 
-struct node *
-circlinkedlist_create();
 
-void
-circlinkedlist_expand(struct node *head);
+struct node *circlinkedlist_create();
 
-void
-circlinkedlist_insert(struct node **head, void *data);
+void circlinkedlist_expand(struct node *lnode);
 
-void
-circlinkedlist_delete(struct node **remove);
+void circlinkedlist_insert(struct node **lnode, void *data);
 
-void
-circlinkedlist_traverse(struct node *head, void (*callback)(struct node *));
+void circlinkedlist_delete(struct node **remove);
 
-struct node*
-circlinkedlist_find(struct node *list, void *item,
-                    int (*compare)(const void *, const void *));
+void circlinkedlist_traverse(struct node *lnode,
+                             void (*callback)(struct node *));
 
-int
-compare_strings(const void *s1, const void *s2);
+struct node *circlinkedlist_find(struct node *lnode, void *item,
+                                 int (*compare)(const void *, const void *));
 
-int
-compare_integers(const void *p, const void *q);
+int compare_strings(const void *s1, const void *s2);
 
-#endif  // CIRCULAR_LINKED_LIST_H
+int compare_integers(const void *p, const void *q);
+
+#endif // CIRCULAR_LINKED_LIST_H
