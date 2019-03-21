@@ -6,7 +6,7 @@
 #define coerce(type) *(type *)
 
 
-struct node *circlinkedlist_create()
+struct node *circularlist_create()
 {
 	struct node *np = malloc(sizeof(struct node));
 	np->data = NULL;
@@ -16,8 +16,7 @@ struct node *circlinkedlist_create()
 	return np;
 }
 
-
-static void circlinkedlist_expand(struct node *lnode)
+static void circularlist_expand(struct node *lnode)
 {
 	// Create new node.
 	struct node *new = malloc(sizeof(struct node));
@@ -32,8 +31,7 @@ static void circlinkedlist_expand(struct node *lnode)
     return;
 }
 
-
-void circlinkedlist_insert(struct node **lnode, void *data)
+void circularlist_insert(struct node **lnode, void *data)
 {
 	struct node *current = *lnode;
 	do {
@@ -47,14 +45,13 @@ void circlinkedlist_insert(struct node **lnode, void *data)
 
 	// Exiting the while loop implies there are no available spots.
 	// So we must exand the list to create one.
-	circlinkedlist_expand(*lnode);
+	circularlist_expand(*lnode);
 	// Re-attempt inserting data into updated list.
-	circlinkedlist_insert(lnode, data); // recursive call.
+	circularlist_insert(lnode, data); // recursive call.
 	return;
 }
 
-
-void circlinkedlist_delete(struct node **remove)
+void circularlist_delete(struct node **remove)
 {
 	// links update.
 	(*remove)->prev->next = (*remove)->next;
@@ -64,25 +61,22 @@ void circlinkedlist_delete(struct node **remove)
 	return;
 }
 
-
-struct node *circlinkedlist_find(struct node *lnode, void *item,
-                                 int (*compare)(const void *, const void *))
+struct node *circularlist_find(struct node *lnode, void *query,
+                               int (*compare)(const void *, const void *))
 {
 	struct node *current = lnode;
 	do {
-		if ((*compare)(item, current->data) == 0)
+		if ((*compare)(query, current->data) == 0)
 			return current;
 	} while (current = current->next, current != lnode);
 }
 
-
-int compare_strings(const void *s1, const void *s2)
+int circularlist_compare_strings(const void *s1, const void *s2)
 {
 	return strcmp((const char *)s1, (const char *)s2);
 }
 
-
-int compare_integers(const void *p, const void *q)
+int circularlist_compare_integers(const void *p, const void *q)
 {
 	if (coerce(int) p == coerce(int) q)
 		return 0; // Following strcmp return convention
@@ -90,8 +84,8 @@ int compare_integers(const void *p, const void *q)
 		return 1;
 }
 
-void circlinkedlist_traverse(struct node *lnode,
-                             void (*callback)(struct node *))
+void circularlist_traverse(struct node *lnode,
+                           void (*callback)(struct node *))
 {
 	struct node *current = lnode;
 	do {
@@ -101,8 +95,8 @@ void circlinkedlist_traverse(struct node *lnode,
 	return;
 }
 
-void circlinkedlist_print(struct node *lnode)
+void circularlist_print(struct node *lnode)
 {
-    // circlinkedlist_print assumes data has been assigned char *
+    // Assumes data has been assigned char *
     puts(lnode->data);
 }
