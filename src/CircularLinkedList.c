@@ -69,6 +69,9 @@ struct node *circularlist_find(struct node *lnode, void *query,
 		if ((*compare)(query, current->data) == 0)
 			return current;
 	} while (current = current->next, current != lnode);
+
+    // Unable to find query.
+    return  NULL;
 }
 
 int circularlist_compare_strings(const void *s1, const void *s2)
