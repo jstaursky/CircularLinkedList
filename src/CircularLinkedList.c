@@ -5,7 +5,6 @@
 
 #define coerce(type) *(type *)
 
-
 struct node *circularlist_create()
 {
 	struct node *np = malloc(sizeof(struct node));
@@ -28,7 +27,7 @@ static void circularlist_expand(struct node *lnode)
 	lnode->prev = new;
 	new->next = lnode;
 
-    return;
+	return;
 }
 
 void circularlist_insert(struct node **lnode, void *data)
@@ -70,8 +69,8 @@ struct node *circularlist_find(struct node *lnode, void *query,
 			return current;
 	} while (current = current->next, current != lnode);
 
-    // Unable to find query.
-    return  NULL;
+	// Unable to find query.
+	return NULL;
 }
 
 int circularlist_compare_strings(const void *s1, const void *s2)
@@ -87,8 +86,7 @@ int circularlist_compare_integers(const void *p, const void *q)
 		return 1;
 }
 
-void circularlist_traverse(struct node *lnode,
-                           void (*callback)(struct node *))
+void circularlist_traverse(struct node *lnode, void (*callback)(struct node *))
 {
 	struct node *current = lnode;
 	do {
@@ -100,6 +98,6 @@ void circularlist_traverse(struct node *lnode,
 
 void circularlist_print(struct node *lnode)
 {
-    // Assumes data has been assigned char *
-    puts(lnode->data);
+	// Assumes data has been assigned char *
+	puts(lnode->data);
 }
