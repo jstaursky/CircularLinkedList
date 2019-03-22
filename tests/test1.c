@@ -21,6 +21,10 @@ int main(int argc, char *argv[])
 
 char *fget_string(FILE *fp)
 {
+	/* Preliminary check */
+	if (!fp || feof(fp))
+		return NULL;
+
     enum {initial, updated};
     int size = 128;
     char *pp[2];
@@ -36,7 +40,7 @@ char *fget_string(FILE *fp)
             memcpy(pp[updated], pp[initial], (p - *pp));
             p = pp[updated] + (p - pp[initial]);
             free(pp[initial]);
-            pp[initial] = p;
+            pp[initial] = pp[updated];
         }
     }
     *p = '\0';
@@ -45,12 +49,13 @@ char *fget_string(FILE *fp)
 
 void populate_wordlist(struct node **list, FILE *stream)
 {
-    char *buffer = fget_string(stream);
-
-    for (char *splice = strtok(buffer, " ");
-         splice; splice = strtok(NULL, " ")) {
-        char *tmp = malloc(strlen(splice) + 1);
-        strcpy(tmp, splice);
-        circularlist_insert(list, tmp);
+    char *buffer;
+    while ((buffer = fget_string(stream))) {
+        for (char *splice = strtok(buffer, " ");
+             splice; splice = strtok(NULL, " ")) {
+            char *tmp = malloc(strlen(splice) + 1);
+            strcpy(tmp, splice);
+            circularlist_insert(list, tmp);
+        }
     }
 }
